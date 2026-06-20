@@ -1,0 +1,390 @@
+/* ============================================
+   components.css
+   Các thành phần UI tái sử dụng: card, chip, button, form, modal, progress bar, toggle, tree, timeline, toast
+   ============================================ */
+
+/* -------------------- CARD -------------------- */
+.card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* -------------------- CHIP (NHÃN) -------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.chip-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.chip-warning {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.chip-error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.chip-info {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.chip-default {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.chip-primary {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.chip-outlined-primary {
+  background: transparent;
+  color: #10b981;
+  border: 1px solid #10b981;
+}
+
+/* -------------------- BUTTON -------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: #10b981;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #059669;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.btn-outline:hover {
+  background: #f9fafb;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 1px solid #10b981;
+  color: #10b981;
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+}
+
+.btn-error {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.btn-error:hover {
+  background: #fee2e2;
+}
+
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 6px;
+  border-radius: 6px;
+  display: inline-flex;
+}
+
+.btn-icon:hover {
+  background: #f3f4f6;
+}
+
+/* -------------------- BẢNG (TABLE) -------------------- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* -------------------- MODAL -------------------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 480px;
+  max-width: 95vw;
+}
+
+/* Modal có thể cuộn khi nội dung cao */
+.modal-scrollable {
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-scrollable .modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Responsive modal trên mobile */
+@media (max-width: 640px) {
+  .modal {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* -------------------- FORM -------------------- */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  background: white;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #10b981;
+}
+
+.form-helper {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* -------------------- PROGRESS BAR -------------------- */
+.progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #22c55e, #10b981);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.35);
+  transition: width 0.35s ease;
+}
+
+/* -------------------- TOGGLE SWITCH -------------------- */
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  background: #d1d5db;
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.2s;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle-track.checked {
+  background: #f59e0b;
+}
+
+.toggle-track::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.2s;
+}
+
+.toggle-track.checked::after {
+  left: 22px;
+}
+
+/* -------------------- CÂY THƯ MỤC (TREE) -------------------- */
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.tree-item:hover {
+  background: #f3f4f6;
+}
+
+.tree-item.selected {
+  background: #d1fae5;
+  color: #047857;
+}
+
+/* -------------------- TIMELINE -------------------- */
+.timeline {
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 28px;
+  width: 2px;
+  height: calc(100% - 10px);
+  background: #e5e7eb;
+}
+
+.timeline-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* -------------------- TOAST (THÔNG BÁO) -------------------- */
+.toast {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-width: 260px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease;
+}
+
+.toast-success {
+  background: #10b981;
+  color: white;
+}
+
+.toast-info {
+  background: #3b82f6;
+  color: white;
+}
+
+.toast-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.toast-error {
+  background: #ef4444;
+  color: white;
+}
+
+/* Animation cho toast */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

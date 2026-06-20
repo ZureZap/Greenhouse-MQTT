@@ -1,0 +1,146 @@
+/* ============================================
+   layout.css
+   Bố cục tổng thể: body, sidebar, main, grid, responsive
+   ============================================ */
+
+/* Reset cơ bản */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body với flex layout */
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f9fafb;
+  color: #111827;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* -------------------- SIDEBAR (THANH BÊN) -------------------- */
+#sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header của sidebar */
+.sidebar-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.sidebar-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.sidebar-sub {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Danh sách menu trong sidebar */
+.sidebar-nav {
+  padding: 12px;
+  flex: 1;
+}
+
+/* -------------------- MAIN CONTENT -------------------- */
+#main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* -------------------- CÁC TRANG (PAGES) -------------------- */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Header của mỗi trang */
+.page-header {
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.page-sub {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* -------------------- GRID SYSTEM -------------------- */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-8-4 {
+  grid-template-columns: 2fr 1fr;
+}
+
+.grid-5-7 {
+  grid-template-columns: 5fr 7fr;
+}
+
+.grid-8-4-full {
+  grid-template-columns: 8fr 4fr;
+}
+
+/* -------------------- RESPONSIVE (DƯỚI 900px) -------------------- */
+@media (max-width: 900px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-8-4,
+  .grid-5-7,
+  .grid-8-4-full {
+    grid-template-columns: 1fr;
+  }
+}

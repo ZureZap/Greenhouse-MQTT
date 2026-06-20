@@ -1,0 +1,393 @@
+/* ============================================
+   pages.css
+   Các style đặc thù cho các thành phần trong trang
+   ============================================ */
+
+/* -------------------- MENU ĐIỀU HƯỚNG (NAV ITEM) -------------------- */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #374151;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  transition: background 0.15s;
+}
+
+/* -------------------- TABLE SORT & FILTER -------------------- */
+.table-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.table-sort:hover {
+  color: #2563eb;
+}
+
+.table-sort [data-sort-indicator] {
+  color: #9ca3af;
+  font-size: 0.7rem;
+}
+
+.table-filter-row th {
+  padding-top: 6px;
+  padding-bottom: 10px;
+}
+
+.table-filter-row input {
+  width: 100%;
+  min-width: 82px;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.table-filter-row input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+.nav-item:hover {
+  background: #f3f4f6;
+}
+
+.nav-item.active {
+  background: #10b981;
+  color: white;
+}
+
+.nav-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+/* -------------------- STAT ICON (CHO DASHBOARD) -------------------- */
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* -------------------- BẢNG (TABLE) -------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+th {
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
+  border-bottom: 2px solid #f3f4f6;
+  color: #374151;
+  white-space: nowrap;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f9fafb;
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background: #f9fafb;
+}
+
+/* Font mono cho MAC, IP */
+.mono {
+  font-family: "Courier New", monospace;
+  font-size: 0.82rem;
+}
+
+/* -------------------- SLIDER (THANH TRƯỢT) -------------------- */
+.slider {
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: pointer;
+}
+
+.slider:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* -------------------- TIMELINE DOT (chấm timeline) -------------------- */
+.dot-success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 2px solid #10b981;
+}
+
+.dot-warning {
+  background: #fef9c3;
+  color: #a16207;
+  border: 2px solid #f59e0b;
+}
+
+.dot-default {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 2px solid #d1d5db;
+}
+
+/* -------------------- TOAST CONTAINER -------------------- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* -------------------- CONTROL CARD (TRANG ĐIỀU KHIỂN) -------------------- */
+.control-card {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.control-auto {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.control-manual {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+/* -------------------- ALERT CARD (TRANG CẢNH BÁO) -------------------- */
+.alert-card {
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.alert-critical {
+  border-color: #ef4444;
+}
+
+.alert-warning-card {
+  border-color: #f59e0b;
+}
+
+.alert-info-card {
+  border-color: #3b82f6;
+}
+
+/* -------------------- STAGE CARD (TRANG SINH TRƯỞNG) -------------------- */
+.stage-card {
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.stage-completed {
+  background: #dcfce7;
+}
+
+.stage-current {
+  background: #dbeafe;
+  border: 2px solid #10b981;
+}
+
+.stage-pending {
+  background: #f3f4f6;
+}
+
+/* -------------------- WARNING BOX -------------------- */
+.warn-box {
+  background: #fef9c3;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+/* -------------------- CHART CONTAINER -------------------- */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ===================== ZONES PAGE ENHANCEMENTS ===================== */
+.zone-search-bar {
+  margin-bottom: 8px;
+}
+.zone-tree-node {
+  cursor: pointer;
+}
+.tree-toggle {
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.empty-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #9ca3af;
+  font-size: 1rem;
+}
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+.detail-icon {
+  width: 48px;
+  height: 48px;
+  background: #10b981;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.detail-title {
+  flex: 1;
+}
+.detail-title div:first-child {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.detail-type {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.detail-actions {
+  display: flex;
+  gap: 8px;
+}
+.zone-metrics {
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: #fef3c7;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.metric-card.hum {
+  background: #dbeafe;
+}
+.subtitle {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+.zone-children {
+  margin-bottom: 16px;
+}
+.child-card {
+  background: #f9fafb;
+  padding: 12px;
+  position: relative;
+}
+.child-icon {
+  margin-right: 6px;
+}
+.child-devices {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 6px;
+}
+.child-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+.rack-info {
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 12px;
+}
+.no-result {
+  padding: 20px;
+  text-align: center;
+  color: #9ca3af;
+}
+
+/* ===================== DROPDOWN MENU (nút ba chấm) ===================== */
+.device-action-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 120px;
+  overflow: hidden;
+}
+.action-menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.action-menu-item:hover {
+  background: #f3f4f6;
+}
+.action-menu-item[data-action="delete"]:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}

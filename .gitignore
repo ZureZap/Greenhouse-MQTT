@@ -1,0 +1,4 @@
+smartfarm-api/node_modules/
+smartfarm-api/.env
+*.log
+
