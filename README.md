@@ -7,6 +7,26 @@
 - Database: Microsoft SQL Server.
 - Sensor: chương trình mô phỏng publish dữ liệu qua Eclipse Mosquitto.
 
+Greenhouse Flower Management là sản phẩm IoT hỗ trợ theo dõi và vận hành nhà kính trồng hoa trên một giao diện tập trung. Hệ thống thu thập dữ liệu môi trường từ cảm biến, lưu trữ lịch sử đo, so sánh với ngưỡng sinh trưởng và phát cảnh báo khi phát hiện bất thường.
+
+Người quản lý có thể theo dõi nhiều trang trại, nhà kính và khu vực trồng; kỹ thuật viên có thể thiết lập công thức sinh trưởng; người vận hành có thể kiểm tra và điều khiển thiết bị thủ công. Hệ thống cũng hỗ trợ điều khiển tự động qua MQTT, giúp giảm thao tác thủ công và phản ứng kịp thời với thay đổi của môi trường.
+
+> **Tóm tắt nhanh:** Cài SQL Server và Mosquitto → chạy `SQLFinal.sql` → tạo `.env` → chạy `npm install` → mở Backend, MQTT Simulator và Frontend.
+
+## Mục lục
+
+- [Phần mềm cần cài](#1-phần-mềm-cần-cài)
+- [Cài đặt SQL Server](#2-cài-đặt-sql-server)
+- [Tạo database](#3-tạo-database)
+- [Cấu hình Backend](#4-cấu-hình-backend)
+- [Cài thư viện Node.js](#5-cài-thư-viện-nodejs)
+- [Chạy ứng dụng](#6-chạy-ứng-dụng)
+- [Tài khoản demo](#7-tài-khoản-demo)
+- [MQTT topic và payload](#8-mqtt-topic-và-payload)
+- [Kiểm thử](#9-kiểm-thử)
+- [Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [Lưu ý bảo mật](#11-lưu-ý-bảo-mật)
+
 ## Chức năng
 
 - Dashboard hiển thị đủ 6 chỉ số: nhiệt độ, độ ẩm không khí, ánh sáng, độ ẩm đất, pH và CO2.
@@ -42,7 +62,7 @@ Greenhouse-Flower-Management/
 │   ├── mqtt-service.js
 │   ├── mqtt-sensor-simulator.js
 │   └── .env.example
-├── SQLQuery1.sql
+├── SQLFinal.sql
 └── README.md
 ```
 
@@ -99,6 +119,8 @@ Password: 123456
 Database: SmartFarmDB
 ```
 
+> **Thông tin đăng nhập mặc định:** SQL Server sử dụng tài khoản `sa` với mật khẩu `123456` để kết nối ứng dụng.
+
 Nếu `localhost` không kết nối được, thử `localhost\SQLEXPRESS` tùy theo instance đã cài.
 
 Nếu gặp lỗi khác trong quá trình cài đặt hoặc cấu hình SQL Server, bạn có thể hỏi ChatGPT hoặc một công cụ AI khác để tìm cách khắc phục. Nên gửi kèm nội dung thông báo lỗi, phiên bản SQL Server và thao tác vừa thực hiện để nhận hướng dẫn chính xác hơn.
@@ -110,7 +132,7 @@ Nếu gặp lỗi khác trong quá trình cài đặt hoặc cấu hình SQL Ser
 3. Kết nối bằng SQL Server Authentication với tài khoản `sa` và mật khẩu `123456`.
 4. Nhấn **Execute** để chạy toàn bộ script.
 
-Script sẽ tạo database `SmartFarmDB`, tạo bảng và thêm dữ liệu mẫu. Khi chạy lại, script sẽ xóa dữ liệu demo cũ rồi tạo lại. Không chạy trên database có dữ liệu cần giữ.
+> **Cảnh báo:** Script sẽ tạo database `SmartFarmDB`, tạo bảng và thêm dữ liệu mẫu. Khi chạy lại, script sẽ xóa dữ liệu demo cũ rồi tạo lại. Không chạy trên database có dữ liệu cần giữ.
 
 ## 4. Cấu hình Backend
 
