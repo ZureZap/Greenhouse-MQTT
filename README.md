@@ -46,12 +46,22 @@ Greenhouse-Flower-Management/
 └── README.md
 ```
 
-## Yêu cầu trên Windows
+## 1. Phần mềm cần cài
 
-- Node.js 18 trở lên.
-- Microsoft SQL Server và SQL Server Management Studio.
-- Eclipse Mosquitto chạy tại `127.0.0.1:1883`.
-- VS Code Live Server hoặc một HTTP server tĩnh.
+Cài các phần mềm sau:
+
+1. Node.js 18 trở lên: https://nodejs.org
+2. Microsoft SQL Server Developer hoặc Express.
+3. SQL Server Management Studio (SSMS).
+4. Eclipse Mosquitto.
+5. Visual Studio Code.
+
+Kiểm tra Node.js:
+
+```powershell
+node --version
+npm --version
+```
 
 Kiểm tra Mosquitto:
 
@@ -60,96 +70,129 @@ Get-Service mosquitto
 Test-NetConnection 127.0.0.1 -Port 1883
 ```
 
-## Khởi tạo database
+Nếu Mosquitto chưa chạy:
 
-1. Mở SQL Server Management Studio.
-2. Mở `SQLQuery1.sql`.
-3. Chạy toàn bộ script.
+```powershell
+Start-Service mosquitto
+```
 
-Script có thể chạy lại. Mỗi lần chạy sẽ xóa các bảng cũ trong `SmartFarmDB`, tạo lại schema và seed dữ liệu demo mới. Không chạy trên database có dữ liệu cần giữ.
+## 2. Cài đặt SQL Server
 
-## Dữ liệu mẫu
+Trong SQL Server Management Studio:
 
-### Tài khoản
+1. Bật **SQL Server and Windows Authentication mode** trong Server Properties -> Security.
+2. Khởi động lại SQL Server.
+3. Đăng nhập bằng tài khoản quản trị và chạy:
 
-Tất cả tài khoản dùng mật khẩu `demo123`.
+```sql
+ALTER LOGIN sa ENABLE;
+ALTER LOGIN sa WITH PASSWORD = '123456';
+```
 
-| Vai trò | Tài khoản | Ghi chú |
-|---|---|---|
-| OWNER chính | `greenhouse_owner` | Không thể xóa/đổi role |
-| OWNER phụ | `owner_secondary` | Dùng test quản lý tài khoản |
-| TECHNICIAN | `agronomist` | Test Device, Growth, AUTO Control |
-| OPERATOR | `operator_a` | Test Control |
-| PENDING | `pending_operator` | Dùng test trạng thái tài khoản |
+Thông tin SQL Server dùng cho project:
 
-### Kịch bản Zone
+```text
+Server: localhost
+Port: 1433
+Login: sa
+Password: 123456
+Database: SmartFarmDB
+```
 
-| Zone | Mục đích |
-|---|---|
-| Zone Hồng A1 - Tối ưu | Sáu metric bình thường, biểu đồ đầy đủ |
-| Zone Hồng A2 - Cảnh báo | Nhiệt độ cao, độ ẩm đất thấp, có cảnh báo và AUTO Control |
-| Zone Lan B1 - Điều chỉnh | Có điều chỉnh chu kỳ +3 ngày và cảm biến cần thay pin |
-| Zone Cúc C1 - Theo dõi | Ánh sáng thấp, có cảnh báo và đèn AUTO |
-| Zone C2 - Chờ gieo | Chưa gán Recipe, chưa có ngày bắt đầu |
+Nếu `localhost` không kết nối được, thử `localhost\SQLEXPRESS` tùy theo instance đã cài.
 
-Mỗi Zone đang hoạt động có đúng 6 SENSOR và 13 điểm lịch sử cho mỗi metric trong 2 giờ gần nhất. Vì vậy Dashboard có dữ liệu ngay sau khi chạy SQL, không cần bật simulator trước.
+Nếu gặp lỗi khác trong quá trình cài đặt hoặc cấu hình SQL Server, bạn có thể hỏi ChatGPT hoặc một công cụ AI khác để tìm cách khắc phục. Nên gửi kèm nội dung thông báo lỗi, phiên bản SQL Server và thao tác vừa thực hiện để nhận hướng dẫn chính xác hơn.
 
-## Cấu hình backend
+## 3. Tạo database
 
-Trong `smartfarm-api`, tạo `.env` từ `.env.example`:
+1. Mở SSMS.
+2. Mở file `SQLFinal.sql` ở thư mục gốc project.
+3. Kết nối bằng SQL Server Authentication với tài khoản `sa` và mật khẩu `123456`.
+4. Nhấn **Execute** để chạy toàn bộ script.
+
+Script sẽ tạo database `SmartFarmDB`, tạo bảng và thêm dữ liệu mẫu. Khi chạy lại, script sẽ xóa dữ liệu demo cũ rồi tạo lại. Không chạy trên database có dữ liệu cần giữ.
+
+## 4. Cấu hình Backend
+
+Mở PowerShell tại thư mục project:
+
+```powershell
+cd smartfarm-api
+Copy-Item .env.example .env
+```
+
+Mở file `smartfarm-api/.env` và đặt:
 
 ```env
 DB_HOST=localhost
 DB_DATABASE=SmartFarmDB
 DB_USER=sa
-DB_PASSWORD=your-password
+DB_PASSWORD=123456
 DB_PORT=1433
 PORT=5000
-MQTT_URL=mqtt://127.0.0.1:1883
+SIMULATION_ENABLED=true
 SIMULATION_INTERVAL_MS=10000
 MQTT_SENSOR_INTERVAL_MS=5000
+MQTT_URL=mqtt://127.0.0.1:1883
 ```
 
-## Chạy ứng dụng
+## 5. Cài thư viện Node.js
 
-### 1. Backend
+Tại thư mục `smartfarm-api`, chạy:
 
 ```powershell
-cd smartfarm-api
 npm install
+```
+
+Lệnh này tự cài các thư viện trong `package.json`, gồm Express, CORS, dotenv, MQTT, mssql, msnodesqlv8 và nodemon.
+
+## 6. Chạy ứng dụng
+
+Mở ba cửa sổ PowerShell riêng.
+
+### Cửa sổ 1: Backend
+
+```powershell
+cd <duong-dan-project>\smartfarm-api
 npm start
 ```
 
-Backend chạy tại `http://localhost:5000` và subscribe:
+Backend chạy tại `http://localhost:5000`.
 
-```text
-greenhouse/+/zone/+/sensor/+/data
-```
-
-### 2. Sensor MQTT mô phỏng liên tục
-
-Mở PowerShell thứ hai:
+### Cửa sổ 2: MQTT Simulator
 
 ```powershell
-cd smartfarm-api
+cd <duong-dan-project>\smartfarm-api
 npm run mqtt:simulate
 ```
 
-Simulator đọc SENSOR từ SQL Server, phát toàn bộ cảm biến mỗi 5 giây và định kỳ tạo giá trị bất thường. Dừng bằng `Ctrl+C`.
+### Cửa sổ 3: Frontend
 
-### 3. Frontend
-
-Mở thư mục gốc bằng VS Code Live Server, hoặc:
+Mở thư mục project bằng VS Code và chọn **Open with Live Server**, hoặc chạy:
 
 ```powershell
+cd <duong-dan-project>
 npx http-server -p 8080
 ```
 
-Truy cập `http://localhost:8080`. Không mở trực tiếp bằng `file://`.
+Mở trình duyệt tại `http://localhost:8080`. Không mở trực tiếp bằng `file://`.
 
-## MQTT topic và payload
+## 7. Tài khoản demo
 
-Sensor publish:
+Các tài khoản mẫu trong ứng dụng dùng mật khẩu `demo123`:
+
+| Vai trò | Tài khoản |
+|---|---|
+| OWNER | `greenhouse_owner` |
+| OWNER phụ | `owner_secondary` |
+| TECHNICIAN | `agronomist` |
+| OPERATOR | `operator_a` |
+
+Lưu ý: `123456` là mật khẩu SQL Server của tài khoản `sa`; `demo123` là mật khẩu đăng nhập ứng dụng.
+
+## 8. MQTT topic và payload
+
+Sensor gửi dữ liệu:
 
 ```text
 greenhouse/{greenhouseId}/zone/{zoneId}/sensor/{deviceId}/data
@@ -163,44 +206,17 @@ greenhouse/{greenhouseId}/zone/{zoneId}/sensor/{deviceId}/data
 }
 ```
 
-Backend publish lệnh AUTO:
+Backend gửi lệnh AUTO:
 
 ```text
 greenhouse/{greenhouseId}/zone/{zoneId}/device/{deviceId}/command
 ```
 
-Topic sai Greenhouse/Zone/Device hoặc payload không có `value` hợp lệ sẽ bị từ chối trước khi ghi SensorData.
+## 9. Kiểm thử
 
-## Luồng dữ liệu
-
-```text
-MQTT Sensor
-  → mqtt-service.js
-  → processReading()
-  → SensorData
-  → Threshold của GrowthStage hiện tại
-  → AlertLog + Zone.status
-  → ControlProperties AUTO
-  → MQTT command + Log SYSTEM
-```
-
-Khi dữ liệu trở lại trong ngưỡng, cảnh báo AUTO tương ứng chuyển sang `RESOLVED`. Thiết bị MANUAL không bị Rule Engine ghi đè.
-
-## Checklist kiểm thử giao diện
-
-1. Dashboard: chọn từng nhà kính, kiểm tra biểu đồ có dữ liệu và số cảnh báo đúng.
-2. Zone: xem Recipe, ngày bắt đầu và thanh tiến độ; Zone C2 hiển thị chưa gán công thức.
-3. Growth: chọn Zone áp dụng trong thẻ Recipe, xem 6 ngưỡng, tiến độ và cảnh báo.
-4. Device: lọc/sắp xếp, kiểm tra trạng thái ONLINE và NEEDS_REPLACEMENT.
-5. Control: kiểm tra AUTO, MANUAL và công suất mẫu.
-6. Alerts: có active, acknowledged và dữ liệu resolved trong database.
-7. Logs: có cả `USER` và `SYSTEM`, nhiều loại entity.
-8. Phân quyền: đăng nhập lần lượt bằng ba vai trò và kiểm tra menu.
-
-## Kiểm thử backend
+Tại thư mục `smartfarm-api`:
 
 ```powershell
-cd smartfarm-api
 npm test
 npm run test:integration
 npm run test:data
@@ -209,42 +225,35 @@ npm run test:seed
 npm run test:alerts
 ```
 
-- `npm test`: cú pháp và hàm logic thuần.
-- `test:integration`: SensorData → AlertLog → AUTO Control → Log.
-- `test:data`: đủ 6 metric, không có AlertLog mồ côi/trùng và Log sai quan hệ.
-- `test:mqtt`: kiểm tra MQTT handler tạo và giải quyết cảnh báo.
-- `test:seed`: chạy SQL trên database tạm, kiểm tra dữ liệu Dashboard và tự xóa database tạm.
-- `test:alerts`: kiểm tra quan hệ AlertLog → Zone → Greenhouse và ba cấp độ cảnh báo.
+## 10. Lỗi thường gặp
 
-## Lưu ý
+### Không kết nối được SQL Server
 
-- Mật khẩu đang lưu dạng văn bản để đơn giản hóa bài tập; hệ thống thật phải dùng bcrypt/Argon2 và JWT/session an toàn.
-- `.env` chứa mật khẩu database không nên đưa lên GitHub.
-- Sau khi sửa backend, dừng và chạy lại `npm start`.
-- Nếu trình duyệt giữ JavaScript cũ, nhấn `Ctrl + F5`.
+Kiểm tra SQL Server đang chạy, Mixed Mode đã bật, tài khoản `sa` đã Enable, mật khẩu là `123456` và port là `1433`.
 
-### Khi MQTT báo sai Zone hoặc trùng khóa SensorData
+### Không kết nối được MQTT
 
-Nguyên nhân thường là nhiều backend/simulator cũ vẫn chạy sau khi reset SQL. Kiểm tra:
+```powershell
+Get-Service mosquitto
+Start-Service mosquitto
+Test-NetConnection 127.0.0.1 -Port 1883
+```
+
+### Dashboard không có dữ liệu
+
+Kiểm tra đã chạy `SQLFinal.sql`, file `.env` đúng thông tin, Mosquitto đang chạy và cửa sổ `npm run mqtt:simulate` không báo lỗi.
+
+### MQTT báo sai Zone hoặc dữ liệu trùng
+
+Đóng các tiến trình Node cũ rồi chạy lại Backend và Simulator:
 
 ```powershell
 Get-Process node
+Stop-Process -Name node
 ```
 
-Đóng các terminal Node cũ, hoặc nếu chắc chắn không có ứng dụng Node khác cần giữ:
+Chỉ dùng lệnh trên khi chắc chắn không có ứng dụng Node.js khác đang chạy.
 
-```powershell
-Get-Process node | Stop-Process
-```
+## 11. Lưu ý bảo mật
 
-Sau đó chỉ chạy lại hai terminal:
-
-```powershell
-# Terminal 1
-npm start
-
-# Terminal 2
-npm run mqtt:simulate
-```
-
-Phiên bản hiện tại dùng MQTT shared subscription, tự tải lại mapping cảm biến mỗi chu kỳ và bỏ qua bản ghi trùng `(device_id, timestamp)`.
+Mật khẩu `123456` chỉ dùng cho môi trường bài tập/demo. Khi triển khai thật, hãy dùng mật khẩu mạnh, không đưa `.env` lên GitHub và bật cơ chế xác thực an toàn.
